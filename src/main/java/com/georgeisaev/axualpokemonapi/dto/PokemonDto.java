@@ -1,6 +1,8 @@
 package com.georgeisaev.axualpokemonapi.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AccessLevel;
 import lombok.Data;
@@ -15,6 +17,7 @@ import lombok.experimental.FieldDefaults;
 @Schema(name = "Pokemon details")
 public class PokemonDto {
 
+    @JsonIgnore
     @Schema(name = "Id")
     Long id;
 
