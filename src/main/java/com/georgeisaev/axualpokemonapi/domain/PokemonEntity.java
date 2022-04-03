@@ -16,6 +16,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OrderColumn;
 import javax.persistence.Table;
 import java.util.List;
@@ -44,7 +45,7 @@ public class PokemonEntity {
     @ToString.Exclude
     @ElementCollection
     @CollectionTable(name = "axual_pokemon_type")
-    @OrderColumn
+    @OrderColumn(name = "pokemon_type_order")
     @Column(name = "pokemon_type")
     List<String> types;
 
