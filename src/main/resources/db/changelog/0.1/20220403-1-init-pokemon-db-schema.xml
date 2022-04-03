@@ -24,8 +24,18 @@
     </changeSet>
     <changeSet id="1648973515065-2" author="Georgy Isaev">
         <createTable tableName="axual_pokemon_type">
-            <column name="name" type="VARCHAR(255)">
-                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_axual_pokemon_type"/>
+            <column name="pokemon_entity_id"
+                    type="BIGINT">
+                <constraints nullable="false"
+                             primaryKey="true"
+                             primaryKeyName="pk_axual_pokemon_type"/>
+            </column>
+            <column name="pokemon_type"
+                    type="VARCHAR(255)"/>
+            <column name="pokemon_type_order"
+                    type="INT">
+                <constraints primaryKey="true"
+                             primaryKeyName="pk_axual_pokemon_type"/>
             </column>
         </createTable>
     </changeSet>
