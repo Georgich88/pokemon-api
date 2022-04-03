@@ -28,7 +28,6 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 @ToString
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Table(name = "axual_pokemon")
