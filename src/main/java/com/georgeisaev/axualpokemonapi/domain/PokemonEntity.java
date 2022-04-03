@@ -9,17 +9,16 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.FieldDefaults;
 
-import javax.persistence.CascadeType;
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
+import javax.persistence.OrderColumn;
 import javax.persistence.Table;
-import java.util.Set;
+import java.util.List;
 
 /**
  * Pokemon details
@@ -43,13 +42,11 @@ public class PokemonEntity {
     String name;
 
     @ToString.Exclude
-    @ManyToMany(cascade = CascadeType.PERSIST)
-    @JoinTable(
-            name = "axual_pokemon_type_link",
-            joinColumns = @JoinColumn(name = "pokemon_id"),
-            inverseJoinColumns = @JoinColumn(name = "pokemon_type_id")
-    )
-    Set<PokemonTypeEntity> types;
+    @ElementCollection
+    @CollectionTable(name = "axual_pokemon_type")
+    @OrderColumn
+    @Column(name = "pokemon_type")
+    List<String> types;
 
     @Column(name = "total")
     Integer total;
