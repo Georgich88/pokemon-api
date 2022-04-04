@@ -8,7 +8,7 @@ import java.util.function.Supplier;
 import static com.georgeisaev.axualpokemonapi.exception.PokemonNotFoundException.REASON;
 
 /**
- * Exception is thrown when a pokemon cannot be found
+ * Exception is thrown when a Pokémon cannot be found
  */
 @ResponseStatus(value = HttpStatus.NOT_FOUND, reason = REASON)
 public class PokemonNotFoundException extends RuntimeException {

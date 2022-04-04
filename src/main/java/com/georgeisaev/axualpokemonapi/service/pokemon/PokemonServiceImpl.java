@@ -3,9 +3,9 @@ package com.georgeisaev.axualpokemonapi.service.pokemon;
 import com.georgeisaev.axualpokemonapi.domain.PokemonEntity;
 import com.georgeisaev.axualpokemonapi.dto.PokemonDto;
 import com.georgeisaev.axualpokemonapi.exception.PokemonNotFoundException;
-import com.georgeisaev.axualpokemonapi.web.CustomRsqlVisitor;
 import com.georgeisaev.axualpokemonapi.repository.PokemonRepository;
 import com.georgeisaev.axualpokemonapi.service.mapper.PokemonMapper;
+import com.georgeisaev.axualpokemonapi.web.CustomSearchVisitor;
 import cz.jirutka.rsql.parser.RSQLParser;
 import cz.jirutka.rsql.parser.ast.Node;
 import lombok.AccessLevel;
@@ -31,10 +31,10 @@ public class PokemonServiceImpl implements PokemonService {
     PokemonMapper pokemonMapper;
 
     /**
-     * Creates a new pokemon
+     * Creates a new Pokémon
      *
-     * @param pokemonDto a pokemon to create
-     * @return the persisted pokemon
+     * @param pokemonDto a Pokémon to create
+     * @return the persisted Pokémon
      */
     @Override
     @Transactional
@@ -46,11 +46,11 @@ public class PokemonServiceImpl implements PokemonService {
     }
 
     /**
-     * Finds a pokemon by name
+     * Finds a Pokémon by name
      *
      * @param name a pokemon name
-     * @return the found pokemon
-     * @throws PokemonNotFoundException when a pokemon cannot be found
+     * @return the found Pokémon
+     * @throws PokemonNotFoundException when a Pokémon cannot be found
      */
     @Override
     @Transactional(readOnly = true)
@@ -60,10 +60,17 @@ public class PokemonServiceImpl implements PokemonService {
                 .orElseThrow(PokemonNotFoundException.supplierForName(name));
     }
 
+    /**
+     * Finds Pokémon items by a search string
+     *
+     * @param search      a search string
+     * @param pageRequest a page
+     * @return the found Pokémon page
+     */
     @Override
     public Page<PokemonDto> search(String search, Pageable pageRequest) {
         Node rootNode = new RSQLParser().parse(search);
-        Specification<PokemonEntity> spec = rootNode.accept(new CustomRsqlVisitor<PokemonEntity>());
+        Specification<PokemonEntity> spec = rootNode.accept(new CustomSearchVisitor<PokemonEntity>());
         return pokemonRepository.findAll(spec, pageRequest)
                 .map(pokemonMapper::toDto);
     }

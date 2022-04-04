@@ -5,7 +5,7 @@ import cz.jirutka.rsql.parser.ast.RSQLOperators;
 import lombok.Getter;
 
 @Getter
-public enum RsqlSearchOperation {
+public enum SearchOperation {
 
     EQUAL(RSQLOperators.EQUAL),
     NOT_EQUAL(RSQLOperators.NOT_EQUAL),
@@ -16,14 +16,14 @@ public enum RsqlSearchOperation {
     IN(RSQLOperators.IN),
     NOT_IN(RSQLOperators.NOT_IN);
 
-    private ComparisonOperator operator;
+    final ComparisonOperator operator;
 
-    private RsqlSearchOperation(ComparisonOperator operator) {
+    SearchOperation(ComparisonOperator operator) {
         this.operator = operator;
     }
 
-    public static RsqlSearchOperation getSimpleOperator(ComparisonOperator operator) {
-        for (RsqlSearchOperation operation : values()) {
+    public static SearchOperation getSimpleOperator(ComparisonOperator operator) {
+        for (SearchOperation operation : values()) {
             if (operation.getOperator() == operator) {
                 return operation;
             }

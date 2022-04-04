@@ -50,8 +50,4 @@ public interface PokemonMapper {
         }
     }
 
-
-
-
-
 }
