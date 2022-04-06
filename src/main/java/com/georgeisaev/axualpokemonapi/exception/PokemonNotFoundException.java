@@ -19,9 +19,9 @@ public class PokemonNotFoundException extends RuntimeException {
         super(message);
     }
 
-    public static Supplier<PokemonNotFoundException> supplierForId(Long invoiceId) {
+    public static Supplier<PokemonNotFoundException> supplierForId(Long id) {
         return () -> new PokemonNotFoundException(
-                String.format(REASON + " by id=%s", invoiceId)
+                String.format(REASON + " by id=%s", id)
         );
     }
 
