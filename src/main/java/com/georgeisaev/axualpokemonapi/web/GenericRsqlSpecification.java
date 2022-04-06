@@ -1,9 +1,11 @@
 package com.georgeisaev.axualpokemonapi.web;
 
 import cz.jirutka.rsql.parser.ast.ComparisonOperator;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.springframework.data.jpa.domain.Specification;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -13,20 +15,23 @@ import javax.persistence.criteria.Root;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static java.util.Objects.requireNonNull;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class GenericRsqlSpecification<T> implements Specification<T> {
 
-    private String property;
-    private ComparisonOperator operator;
-    private List<String> arguments;
+    String property;
+    ComparisonOperator operator;
+    List<String> arguments;
 
     @Override
     public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
         List<Object> args = castArguments(root);
         Object argument = args.get(0);
-        switch (RsqlSearchOperation.getSimpleOperator(operator)) {
+        switch (requireNonNull(RsqlSearchOperation.getSimpleOperator(operator))) {
 
             case EQUAL: {
                 if (argument instanceof String) {
@@ -68,10 +73,8 @@ public class GenericRsqlSpecification<T> implements Specification<T> {
     }
 
     private List<Object> castArguments(final Root<T> root) {
-
-        Class<? extends Object> type = root.get(property).getJavaType();
-
-        List<Object> args = arguments.stream().map(arg -> {
+        Class<?> type = root.get(property).getJavaType();
+        return arguments.stream().map(arg -> {
             if (type.equals(Integer.class)) {
                 return Integer.parseInt(arg);
             } else if (type.equals(Long.class)) {
@@ -80,9 +83,6 @@ public class GenericRsqlSpecification<T> implements Specification<T> {
                 return arg;
             }
         }).collect(Collectors.toList());
-
-        return args;
     }
 
-    // standard constructor, getter, setter
 }

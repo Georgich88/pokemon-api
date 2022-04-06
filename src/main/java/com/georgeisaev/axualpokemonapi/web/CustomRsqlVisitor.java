@@ -4,14 +4,17 @@ import cz.jirutka.rsql.parser.ast.AndNode;
 import cz.jirutka.rsql.parser.ast.ComparisonNode;
 import cz.jirutka.rsql.parser.ast.OrNode;
 import cz.jirutka.rsql.parser.ast.RSQLVisitor;
+import lombok.AccessLevel;
+import lombok.experimental.FieldDefaults;
 import org.springframework.data.jpa.domain.Specification;
 
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class CustomRsqlVisitor<T> implements RSQLVisitor<Specification<T>, Void> {
 
-    private GenericRsqlSpecBuilder<T> builder;
+    GenericRsqlSpecBuilder<T> builder;
 
     public CustomRsqlVisitor() {
-        builder = new GenericRsqlSpecBuilder<T>();
+        builder = new GenericRsqlSpecBuilder<>();
     }
 
     @Override

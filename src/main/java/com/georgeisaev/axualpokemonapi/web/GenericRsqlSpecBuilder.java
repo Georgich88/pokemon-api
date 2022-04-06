@@ -23,9 +23,9 @@ public class GenericRsqlSpecBuilder<T> {
     }
 
     public Specification<T> createSpecification(LogicalNode logicalNode) {
-        List<Specification> specs = logicalNode.getChildren()
+        List<Specification<T>> specs = logicalNode.getChildren()
                 .stream()
-                .map(node -> createSpecification(node))
+                .map(this::createSpecification)
                 .filter(Objects::nonNull)
                 .collect(Collectors.toList());
 
@@ -39,19 +39,17 @@ public class GenericRsqlSpecBuilder<T> {
                 result = Specification.where(result).or(specs.get(i));
             }
         }
-
         return result;
     }
 
     public Specification<T> createSpecification(ComparisonNode comparisonNode) {
-        Specification<T> result = Specification.where(
+        return Specification.where(
                 new GenericRsqlSpecification<T>(
                         comparisonNode.getSelector(),
                         comparisonNode.getOperator(),
                         comparisonNode.getArguments()
                 )
         );
-        return result;
     }
 
 }
